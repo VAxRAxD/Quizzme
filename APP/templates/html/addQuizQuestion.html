@@ -1,0 +1,58 @@
+{% extends "html/base.html" %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/quizPage.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="quiz-container">
+  <br>
+    <form method="POST">
+      {% csrf_token %}
+        {% for form in formset %}
+        <div class="mb-4 row info">
+          <label for="inputPassword" class="col-sm-5 col-form-label">{{form.question.label_tag}}</label>
+          <div class="col-sm-5">
+            {{form.question}}
+          </div>
+        </div>
+        <div class="mb-4 row info">
+          <label for="inputPassword" class="col-sm-5 col-form-label">{{form.option_1.label_tag}}</label>
+          <div class="col-sm-5">
+            {{form.option_1}}
+          </div>
+        </div>
+        <div class="mb-4 row info">
+          <label for="inputPassword" class="col-sm-5 col-form-label">{{form.option_2.label_tag}}</label>
+          <div class="col-sm-5">
+            {{form.option_2}}
+          </div>
+        </div>
+        <div class="mb-4 row info">
+          <label for="inputPassword" class="col-sm-5 col-form-label">{{form.option_3.label_tag}}</label>
+          <div class="col-sm-5">
+            {{form.option_3}}
+          </div>
+        </div>
+        <div class="mb-4 row info">
+          <label for="inputPassword" class="col-sm-5 col-form-label">{{form.option_4.label_tag}}</label>
+          <div class="col-sm-5">
+            {{form.option_4}}
+          </div>
+        </div>
+        <div class="mb-4 row info">
+          <label for="inputPassword" class="col-sm-5 col-form-label">{{form.answer.label_tag}}</label>
+          <div class="col-sm-5">
+            {{form.answer}}
+          </div>
+        </div>
+        <br>
+        <br>
+        {% endfor %}
+      <button type="submit" class="btn btn-info">Create</button>
+    </form>
+  </div>
+{% endblock %}

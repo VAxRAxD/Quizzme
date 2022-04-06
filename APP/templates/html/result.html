@@ -1,0 +1,20 @@
+{% extends "html/base.html" %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/quizPage.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="quiz-container" id="result">
+    <div class="result-header">
+      <h3 id="question">Your form has been submitted Sucessfully.</h3>
+    </div>
+    <hr>
+    <div class="form-check">
+        <h3>You got <b>{{marks}}</b> correct</h3>
+        <br>
+    </div>
+</div>
+{% endblock %}

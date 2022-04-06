@@ -1,0 +1,36 @@
+{% extends "html/base.html" %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block message %}
+{% include 'html/modal.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-evenly">
+    <div class="card" style="width: 18rem;">
+        <img src="{% static 'img/create.png' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <a class="card-title" href="{% url 'addQuizInfo' %}">Create Quiz</a>
+        </div>
+    </div>
+
+    <div class="card" style="width: 18rem;">
+        <img src="{% static 'img/active.png' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <a class="card-title" href="{% url 'quizes' %}">Active Quizes</a>
+        </div>
+    </div>
+
+    <div class="card" style="width: 18rem;">
+        <img src="{% static 'img/enter.png' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <a class="card-title" href="#">Enter Quiz</a>
+          </div>
+    </div>
+</div>
+{% endblock %}

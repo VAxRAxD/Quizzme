@@ -1,0 +1,36 @@
+{% extends "html/base.html" %}
+
+{% load static%}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/quizPage.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="quiz-container" id="info">
+  <form method="post" action="">
+    {% csrf_token %} 
+    <div class="info-header">
+      <div class="text">
+        Welcome to Quizzme, where we provide you the facilites to create your own
+        Quiz and allow others to participate in your created quiz
+      </div>
+    </div>
+    <hr>
+    <div class="mb-4 row info">
+      <label for="inputPassword" class="col-sm-5 col-form-label">Quiz name</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="inputPassword" name="name">
+      </div>
+    </div>
+    <div class="mb-4 row">
+      <label for="inputPassword" class="col-sm-5 col-form-label">Number of questions</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="inputPassword" name="questions">
+      </div>
+    </div>
+      <button type="submit" class="btn btn-info">Proceed</button>
+  </form>
+</div>
+{% endblock %}

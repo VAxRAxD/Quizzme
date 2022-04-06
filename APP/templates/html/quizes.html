@@ -1,0 +1,17 @@
+{% extends "html/base.html" %}
+
+
+{% block content %}
+
+{% for quiz in quizes %}
+<a href="{% url 'displayQuiz' request.user.id quiz.id %}">Test</a>
+<ul>
+    {% for result in results %}
+    {% if result.quizname_id == quiz.id %}
+    <li>{{result.student}} {{result.marks}}</li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endfor %}
+
+{% endblock %}
