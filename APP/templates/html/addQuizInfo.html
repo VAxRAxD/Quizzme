@@ -6,6 +6,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/quizPage.css' %}">
 {% endblock %}
 
+{% block message %}
+  {% include 'html/modal.html' %}
+{% endblock %}
+
 {% block content %}
 
 <div class="quiz-container" id="info">

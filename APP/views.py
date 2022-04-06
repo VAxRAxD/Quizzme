@@ -61,18 +61,18 @@ def addQuizInfo(request):
         questions=request.POST.get('questions')
         name=request.POST.get('name')
         user=request.user
-        Quiz.objects.create(
+        quiz=Quiz.objects.create(
             user=user,
             name=name
         )
-        return redirect("addQuizQuestion",user=request.user.id,name=name,number=questions)
+        return redirect("addQuizQuestion",user=request.user.id,id=quiz.id,number=questions)
     return render(request, 'html/addQuizInfo.html')
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login')
-def addQuizQuestion(request,user,name,number):
+def addQuizQuestion(request,user,id,number):
     QuestionFormSet = formset_factory(addQuestionform, extra=int(number))
-    quiz=Quiz.objects.get(name=name)
+    quiz=Quiz.objects.get(id=id)
     formset=QuestionFormSet()
     if request.method == 'POST':
         formset = QuestionFormSet(request.POST)

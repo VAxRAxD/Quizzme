@@ -4,7 +4,7 @@
 {% block content %}
 
 {% for quiz in quizes %}
-<a href="{% url 'displayQuiz' request.user.id quiz.id %}">Test</a>
+<a href="{% url 'displayQuiz' request.user.id quiz.id %}">{{quiz.name}}</a>
 <ul>
     {% for result in results %}
     {% if result.quizname_id == quiz.id %}
