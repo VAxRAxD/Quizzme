@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-f=gm8y^qtyd2s=nys-+n7c_j29$&nhtugj^h6b&)o(gk6y3ak!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1:8000','quizzmee.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','quizzmee.herokuapp.com']
 CORS_ALLOW_ALL_ORIGINS=True
 
 # Application definition
