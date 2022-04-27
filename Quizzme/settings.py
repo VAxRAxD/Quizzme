@@ -80,12 +80,8 @@ WSGI_APPLICATION = 'Quizzme.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd4chads8m8vcvl',
-        'USER': 'mfgfzggqrfzvpe',
-        'PASSWORD': '7815b4fd4aa3c21803d215716645cd73f6a710da25e6a272dd9fe1d19a228c96',
-        'HOST': 'ec2-52-3-200-138.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
