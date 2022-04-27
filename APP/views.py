@@ -141,3 +141,12 @@ def getUserQuiz(request):
     results=Result.objects.filter(quizname_id__in=id)
     context={'quizes':quizes,'results':results}
     return render(request,'html/quizes.html',context)
+
+def enterQuizLink(request):
+    if request.method=="POST":
+        link=request.POST.get('link')
+        userid=(link.split('/'))[-2]
+        quizid=(link.split('/'))[-1]
+        return redirect("displayQuiz",user=userid,id=quizid)
+    context={}
+    return render(request,'html/enterquiz.html',context)

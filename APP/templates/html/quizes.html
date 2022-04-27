@@ -1,17 +1,32 @@
 {% extends "html/base.html" %}
 
+{% load static%}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/result.css' %}">
+{% endblock %}
 
 {% block content %}
-
+<center>
+<div class="row justify-content-around">
 {% for quiz in quizes %}
-<a href="{% url 'displayQuiz' request.user.id quiz.id %}">{{quiz.name}}</a>
-<ul>
-    {% for result in results %}
-    {% if result.quizname_id == quiz.id %}
-    <li>{{result.student}} {{result.marks}}</li>
-    {% endif %}
-    {% endfor %}
-</ul>
+<div class="col-4 quiz-container" id="info"> 
+    <div class="info-header">
+      <div class="text">
+          <a href="{% url 'displayQuiz' request.user.id quiz.id %}">Quiz Name : <b>{{quiz.name}}</b></a>
+      </div>
+    </div>
+    <hr>
+    <div class="mb-4 row info">
+      {% for result in results %}
+      {% if result.quizname_id == quiz.id %}
+      <h3>{{result.student}} scored {{result.marks}}</h3>
+      {% endif %}
+      {% endfor %}
+    </div>
+</div>
 {% endfor %}
+</div>
+</center>
 
 {% endblock %}

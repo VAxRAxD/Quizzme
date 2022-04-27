@@ -9,5 +9,6 @@ urlpatterns=[
     path('login/', views.loginPage, name="login"),
     path('register/', views.registerPage, name="register"),
     path('logout/', views.logoutUser, name="logout"),
-    path('userquizes',views.getUserQuiz,name="quizes")
+    path('userquizes/',views.getUserQuiz,name="quizes"),
+    path('enterquiz/',views.enterQuizLink,name='enterquiz')
 ]
