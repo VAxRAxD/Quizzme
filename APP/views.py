@@ -100,7 +100,7 @@ def addQuizQuestion(request,user,id,number):
     return render(request, 'html/addQuizQuestion.html', context)
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url='entry')
+@login_required(login_url='enterquiz')
 def displayQuiz(request,user,id,trial):
     owner=User.objects.get(id=user)
     quiz=Quiz.objects.get(id=id)
