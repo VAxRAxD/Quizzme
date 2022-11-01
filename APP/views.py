@@ -13,6 +13,14 @@ from django.views.decorators.cache import cache_control
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @unauthenticated_user
 def loginPage(request):
+    prev_url=str(request.get_full_path())
+    if "?next=" in prev_url:
+        if (prev_url.split('/'))[-2]=="userquizes":
+            page="quizes"
+        if (prev_url.split('/'))[-2]=="info":
+            page="addQuizInfo"
+    else:
+        page="home"
     if request.user.is_authenticated:
         return redirect('home')
     else:
@@ -22,7 +30,7 @@ def loginPage(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect(page)
             else:
                 messages.info(request, 'Username OR password is incorrect')
         context = {}
@@ -108,7 +116,7 @@ def displayQuiz(request,user,id,trial):
         try:
             result=Result.objects.filter(quizname=id,student=request.user.username)[0]
             context={'marks':result.marks}
-            if trial=="True":
+            if trial=="T":
                 student=request.user
                 student.delete()
                 logout(request)
@@ -149,18 +157,29 @@ def getUserQuiz(request):
 
 def enterQuizLink(request):
     if request.method=="POST":
+        context={'quizlink':''}
         link=request.POST.get('link')
-        userid=(link.split('/'))[-2]
-        quizid=(link.split('/'))[-1]
-        trial="False"
+        userid=(link.split('/'))[-4]
+        quizid=(link.split('/'))[-3]
+        trial="F"
         name=request.POST.get('cred')
         password=f"{random.randint(1000,9999)}{(random.choice(string.ascii_letters))}{random.randint(1000,9999)}"
-        try:
-            student=User.objects.create_user(username=name, password=password)
-            login(request,student)
-            trial="True"
-        except:
-            messages.error(request,"Username already taken")
-            return render(request,'html/enterquiz.html')
+        if not request.user.is_staff:
+            try:
+                student=User.objects.create_user(username=name, password=password)
+                login(request,student)
+                trial="T"
+            except:
+                messages.error(request,"Username already taken")
+                return render(request,'html/enterquiz.html',context)
         return redirect("displayQuiz",user=userid,id=quizid,trial=trial)
-    return render(request,'html/enterquiz.html')
+    else:
+        prev_url=str(request.get_full_path())
+        if "?next=" in prev_url:
+            userid=(prev_url.split('/'))[-4]
+            quizid=(prev_url.split('/'))[-3]
+            trialstate=(prev_url.split('/'))[-2]
+            context={'quizlink':f'http://vsquiz.herokuapp.com/quiz/{userid}/{quizid}/{trialstate}/'}
+        else:
+            context={'quizlink':''}
+        return render(request,'html/enterquiz.html',context)
