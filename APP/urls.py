@@ -10,5 +10,6 @@ urlpatterns=[
     path('register/', views.registerPage, name="register"),
     path('logout/', views.logoutUser, name="logout"),
     path('userquizes/',views.getUserQuiz,name="quizes"),
-    path('enterquiz/',views.enterQuizLink,name='enterquiz')
+    path('enterquiz/',views.enterQuizLink,name='enterquiz'),
+    path('result/<user>/<id>/',views.displayResult,name="apiresult")
 ]

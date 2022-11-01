@@ -1,5 +1,7 @@
 import random,string
 from django.shortcuts import render,redirect
+from django.core import serializers
+from django.http import JsonResponse
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -102,7 +104,7 @@ def addQuizQuestion(request,user,id,number):
                 option_4=option_4,
                 answer=answer
             )
-        messages.success(request, 'Quiz created sucessfully. Visit '+'http://vsquiz.herokuapp.com/quiz/'+str(user)+'/'+str(quiz.id))
+        messages.success(request, 'Quiz created sucessfully. Visit '+'http://vsquiz.herokuapp.com/quiz/'+str(user)+'/'+str(quiz.id)+'/F/')
         return redirect('/')
     context = {'formset': formset}
     return render(request, 'html/addQuizQuestion.html', context)
@@ -154,6 +156,11 @@ def getUserQuiz(request):
     results=Result.objects.filter(quizname_id__in=id)
     context={'quizes':quizes,'results':results}
     return render(request,'html/quizes.html',context)
+
+def displayResult(request,user,id):
+    quiz=Quiz.objects.filter(user=user,id=id)[0]
+    results=list(Result.objects.filter(quizname_id=quiz.id).values())
+    return JsonResponse(results, safe=False)
 
 def enterQuizLink(request):
     if request.method=="POST":
