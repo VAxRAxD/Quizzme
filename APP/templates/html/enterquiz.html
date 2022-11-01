@@ -28,6 +28,14 @@
         <input type="text" class="form-control" id="inputPassword" name="link">
       </div>
     </div>
+    {% if not request.user.is_authenticated %} 
+    <div class="mb-4 row info">
+      <label for="inputCred" class="col-sm-3 col-form-label">User name</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" id="inputCred" name="cred">
+      </div>
+    </div>
+    {% endif %} 
       <button type="submit" class="btn btn-info">Proceed</button>
   </form>
 </div>

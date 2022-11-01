@@ -10,16 +10,16 @@ class Quiz(models.Model):
         return self.name
 
 class Attempts(models.Model):
-    examinee=models.ForeignKey(User,null=True,on_delete=models.CASCADE)
+    examinee=models.CharField(max_length=100,null=True)
     quizname=models.ForeignKey(Quiz,null=True,on_delete=models.CASCADE)
 
 class Result(models.Model):
     quizname=models.ForeignKey(Quiz,null=True,on_delete=models.CASCADE)
-    student=models.ForeignKey(User,null=True,on_delete=models.SET_NULL)
+    student=models.CharField(max_length=100,null=True)
     marks=models.IntegerField(null=True)
 
     def __str__(self):
-        return f"{self.student.username} {self.quizname} {self.marks}"
+        return f"{self.student} {self.quizname} {self.marks}"
 
 class Question(models.Model):
     quizname=models.ForeignKey(Quiz,null=True,on_delete=models.CASCADE)

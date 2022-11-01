@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-f=gm8y^qtyd2s=nys-+n7c_j29$&nhtugj^h6b&)o(gk6y3ak!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','vsquiz.herokuapp.com']
 CORS_ALLOW_ALL_ORIGINS=True

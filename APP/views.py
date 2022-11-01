@@ -1,8 +1,9 @@
-import email
+import random,string
 from django.shortcuts import render,redirect
 from django.forms import formset_factory
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib import messages
 from . models import *
 from .forms import *
@@ -47,10 +48,9 @@ def registerPage(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def logoutUser(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url='login')
 def home(request):
     return render(request,'html/home.html')
 
@@ -94,24 +94,29 @@ def addQuizQuestion(request,user,id,number):
                 option_4=option_4,
                 answer=answer
             )
-        messages.success(request, 'Quiz created sucessfully. Visit '+'http://127.0.0.1:8000/quiz/'+str(user)+'/'+str(quiz.id))
+        messages.success(request, 'Quiz created sucessfully. Visit '+'http://vsquiz.herokuapp.com/quiz/'+str(user)+'/'+str(quiz.id))
         return redirect('/')
     context = {'formset': formset}
     return render(request, 'html/addQuizQuestion.html', context)
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url='login')
-def displayQuiz(request,user,id):
+@login_required(login_url='entry')
+def displayQuiz(request,user,id,trial):
     owner=User.objects.get(id=user)
     quiz=Quiz.objects.get(id=id)
     if request.user!=owner:
         try:
-            attempt=Attempts.objects.filter(examinee=request.user,quizname=quiz)[0]
-            result=Result.objects.filter(quizname=id,student=request.user.id)[0]
+            result=Result.objects.filter(quizname=id,student=request.user.username)[0]
             context={'marks':result.marks}
-            return render(request, 'html/result.html',context)
+            if trial=="True":
+                student=request.user
+                student.delete()
+                logout(request)
+                result=True
         except:
-            pass
+            result=False
+        if result:
+            return render(request, 'html/result.html',context)
     questions=Question.objects.filter(quizname=id)
     if request.method=="POST":
         correct=0
@@ -121,14 +126,14 @@ def displayQuiz(request,user,id):
         if request.user!=owner:
             Result.objects.create(
                 quizname=quiz,
-                student=request.user,
+                student=request.user.username,
                 marks=correct
             )
             Attempts.objects.create(
-                examinee=request.user,
+                examinee=request.user.username,
                 quizname=quiz
             )
-        return redirect('home')
+        return redirect("displayQuiz",user=user,id=id,trial=trial)
     context={'questions':questions,'owner':owner}
     return render(request,'html/quizPage.html',context)
 
@@ -147,6 +152,15 @@ def enterQuizLink(request):
         link=request.POST.get('link')
         userid=(link.split('/'))[-2]
         quizid=(link.split('/'))[-1]
-        return redirect("displayQuiz",user=userid,id=quizid)
-    context={}
-    return render(request,'html/enterquiz.html',context)
+        trial="False"
+        name=request.POST.get('cred')
+        password=f"{random.randint(1000,9999)}{(random.choice(string.ascii_letters))}{random.randint(1000,9999)}"
+        try:
+            student=User.objects.create_user(username=name, password=password)
+            login(request,student)
+            trial="True"
+        except:
+            messages.error(request,"Username already taken")
+            return render(request,'html/enterquiz.html')
+        return redirect("displayQuiz",user=userid,id=quizid,trial=trial)
+    return render(request,'html/enterquiz.html')

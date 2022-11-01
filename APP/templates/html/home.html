@@ -33,4 +33,7 @@
           </div>
     </div>
 </div>
+{% if request.user.is_authenticated %}
+<a  class="btn-lgt" href="{% url 'logout' %}"> Logout</a>
+{% endif %}
 {% endblock %}

@@ -24,6 +24,14 @@ a{
 a:hover{
   color: black;
 }
+.btn-lgt{
+  background: #FF2E63 !important;
+  padding: 0.7rem 0.7rem!important;
+  border-radius: 50%;
+  position: absolute;
+  left: 47%;
+  top: 90%;
+}
 .row{
   margin-top: 7rem !important;
 }
