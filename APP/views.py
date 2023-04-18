@@ -104,7 +104,7 @@ def addQuizQuestion(request,user,id,number):
                 option_4=option_4,
                 answer=answer
             )
-        messages.success(request, 'Quiz created sucessfully. Visit '+'http://vsquiz.herokuapp.com/quiz/'+str(user)+'/'+str(quiz.id)+'/F/')
+        messages.success(request, 'Quiz created sucessfully. Visit '+'https://roose.pythonanywhere.com/quiz/'+str(user)+'/'+str(quiz.id)+'/F/')
         return redirect('/')
     context = {'formset': formset}
     return render(request, 'html/addQuizQuestion.html', context)
@@ -186,7 +186,7 @@ def enterQuizLink(request):
             userid=(prev_url.split('/'))[-4]
             quizid=(prev_url.split('/'))[-3]
             trialstate=(prev_url.split('/'))[-2]
-            context={'quizlink':f'http://vsquiz.herokuapp.com/quiz/{userid}/{quizid}/{trialstate}/'}
+            context={'quizlink':f'https://roose.pythonanywhere.com/quiz/{userid}/{quizid}/{trialstate}/'}
         else:
             context={'quizlink':''}
         return render(request,'html/enterquiz.html',context)
